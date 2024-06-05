@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 
 app.get('/api/v1/welcome', (req, res) => {
-    res.send('¡Ha esto le llaman despliegue continuo!');
+    res.send('Hola Mundo! como estamos mi gente');
 });
 
 app.listen(port, () => {
