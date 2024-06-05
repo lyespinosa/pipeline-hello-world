@@ -16,9 +16,12 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    docker.image(DOCKER_IMAGE).inside {
-                        sh 'chown -R $(whoami) /usr/local/etc/npmrc'
-                        sh 'npm config set cache $(pwd)/.npm-cache --global'
+                    docker.image(DOCKER_IMAGE).inside("-u root") {
+                        // Crear directorio de cache de npm y darle permisos adecuados
+                        sh 'mkdir -p /var/lib/jenkins/npm-cache'
+                        sh 'chown -R $(whoami) /var/lib/jenkins/npm-cache'
+                        // Configurar cache de npm
+                        sh 'npm config set cache /var/lib/jenkins/npm-cache --global'
                         sh 'npm install'
                         sh 'npm test'
                     }
